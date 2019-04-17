@@ -25,6 +25,10 @@ public class ProductInfoServiceImpl implements ProductInfoService {
     @Autowired
     private ProductInfoRepository productInfoRepository;
 
+    /**
+     * 商品分类展示
+     * @return
+     */
     @Override
     public ResultResponse queryList() {
         // 查询所有分类
