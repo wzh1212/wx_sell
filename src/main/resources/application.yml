@@ -1,10 +1,31 @@
 server:
-  port: 8080 #ĞŞ¸Ä¶Ë¿ÚºÅ ×¢ÒâÃ°ºÅºóÃæĞèÒªÓĞ¿Õ¸ñ
+  port: 8888 #ä¿®æ”¹ç«¯å£å· æ³¨æ„å†’å·åé¢éœ€è¦æœ‰ç©ºæ ¼
 
-  #ÈÕÖ¾ÅäÖÃ£¬¸Ä±äÁËÈÕÖ¾Êä³öµÄ¸ñÊ½
-logging:
-  pattern:
-    console: "%d-%msg%n"  #  ¿ØÖÆÌ¨Êä³öÅäÖÃ,%d£ºÈÕÆÚ£¬%msg£ºĞÅÏ¢ %n:»»ĞĞ
-  file: D://weixin_sell//log//logback.log #ÈÕÖ¾Êä³öÎÄ¼şÎ»ÖÃ
-  level:
-    root: debug #ÈÕÖ¾¼¶±ğ
+  #é…ç½®è®¿é—®è·¯å¾„ä¸º http://localhost:8888/sell/xxxx
+  servlet:
+    context-path: /sell
+
+#æ—¥å¿—é…ç½®
+#logging:
+#  pattern:
+#    console: "%d-%msg%n"  #  æ§åˆ¶å°è¾“å‡ºé…ç½®,%dï¼šæ—¥æœŸï¼Œ%msgï¼šä¿¡æ¯ %n:æ¢è¡Œ
+#  file: D://weixin_sell//log//logback.log #æ—¥å¿—è¾“å‡ºæ–‡ä»¶ä½ç½®
+#  level:
+#    root: debug #æ—¥å¿—çº§åˆ«
+
+#é…ç½®æ•°æ®æº
+spring:
+  druid:
+    url: jdbc:mysql://192.168.1.164:3306/sell?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
+    maxActive: 30 #æœ€å¤§é“¾æ¥æ•°
+    maxWait: 10000 #è·å¾—é“¾æ¥çš„æœ€å¤§ç­‰å¾…æ—¶é—´
+  jpa:
+    show-sql: true  #æ˜¾ç¤ºsqlè¯­å¥
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss #æ—¥æœŸæ ¼å¼åŒ–æ ‡å‡†
+    default-property-inclusion: non_null #è¿”å›jsonæ—¶ å¿½ç•¥null
+
+
