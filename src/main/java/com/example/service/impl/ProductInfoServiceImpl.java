@@ -89,6 +89,7 @@ public class ProductInfoServiceImpl implements ProductInfoService {
             return ResultResponse.fail(ResultEnums.NOT_EXITS.getMsg() + ":" + productId);
         }
 
+        // 获取对象的数据
         ProductInfo productInfo = byId.get();
         // 判断商品是否下架
         if (productInfo.getProductStatus() == ResultEnums.PRODUCT_DOWN.getCode()){

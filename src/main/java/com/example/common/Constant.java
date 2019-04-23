@@ -1,6 +1,8 @@
 package com.example.common;
 
-
+/**
+ * 常量类
+ */
 public interface Constant {
-    String orderName ="微信订单";
+    String ORDER_NAME ="微信订单";
 }

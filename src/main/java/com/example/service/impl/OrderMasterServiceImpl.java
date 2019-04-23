@@ -12,6 +12,7 @@ import com.example.repository.OrderDetailRepository;
 import com.example.repository.OrderMasterRepository;
 import com.example.service.OrderDetailService;
 import com.example.service.OrderMasterService;
+import com.example.service.PayService;
 import com.example.service.ProductInfoService;
 import com.example.util.BigDecimalUtil;
 import com.example.util.IDUtils;
@@ -45,6 +46,9 @@ public class OrderMasterServiceImpl implements OrderMasterService {
 
     @Autowired
     private OrderDetailService orderDetailService;
+
+    @Autowired
+    private PayService payService;
 
 
     /**
@@ -206,18 +210,18 @@ public class OrderMasterServiceImpl implements OrderMasterService {
     @Transactional
     public ResultResponse cancelOrder(String openid, String orderId) {
         // 获取订单详情
-        OrderMaster detail = orderMasterRepository.findByBuyerOpenidAndOrderId(openid,orderId);
+        OrderMaster orderMaster = orderMasterRepository.findByBuyerOpenidAndOrderId(openid,orderId);
         // 判断数据是否为空
-        if (detail == null){
+        if (orderMaster == null){
             return ResultResponse.fail(OrderEnums.ORDER_NOT_EXITS.getMsg());
         }
         // 判断是否已经完成或取消
-        if (detail.getOrderStatus() == OrderEnums.FINSH.getCode()
-                || detail.getOrderStatus() == OrderEnums.CANCEL.getCode()){
+        if (orderMaster.getOrderStatus() == OrderEnums.FINSH.getCode()
+                || orderMaster.getOrderStatus() == OrderEnums.CANCEL.getCode()){
             return ResultResponse.fail(OrderEnums.FINSH_CANCEL.getMsg());
         }
         // 修改订单状态
-        detail.setOrderStatus(OrderEnums.CANCEL.getCode());
+        orderMaster.setOrderStatus(OrderEnums.CANCEL.getCode());
         // 取出订单
         List<OrderDetail> byOrderId = orderDetailRepository.findByOrderId(orderId);
         // 遍历订单
@@ -230,7 +234,12 @@ public class OrderMasterServiceImpl implements OrderMasterService {
             // 添加到数据库
             productInfoService.updateProduct(productInfo);
         }
-        orderMasterRepository.save(detail);
+
+        // 退款
+        if (orderMaster.getPayStatus() == PayEnums.FINISH.getCode()){
+            payService.refund(orderMaster);
+        }
+        orderMasterRepository.save(orderMaster);
         return ResultResponse.success(OrderEnums.CANCEL.getMsg());
     }
 

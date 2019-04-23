@@ -35,8 +35,8 @@ public class WechatController {
     public String authorize(@RequestParam("returnUrl") String returnUrl) throws UnsupportedEncodingException {
 
         //自己编写获得openid的路径 在下面定义方法getUserInfo
-//        String url = "http://xmcc.natapp1.cc/sell/wechat/getUserInfo";
-        String url = "http://xinglin.natapp1.cc/sell/wechat/getUserInfo";
+        String url = "http://xmccjyqs.natapp1.cc/sell/wechat/getUserInfo";
+//       String url = "http://xinglin.natapp1.cc/sell/wechat/getUserInfo";
 
         // 构造微信授权的 URL
         /**
